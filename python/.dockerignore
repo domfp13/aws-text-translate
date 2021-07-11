@@ -1,0 +1,10 @@
+.git
+.ipynb_checkpoints/*
+Dockerfile
+.DS_Store
+.gitignore
+README.md
+Makefile
+docker-compose.yml
+.dockerignore
+.env

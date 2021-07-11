@@ -1,0 +1,21 @@
+# Created by Luis Enrique Fuentes Plata
+
+### Linux ###
+*~
+
+# IntelliJ
+/out/
+.idea
+
+### OSX ###
+*.DS_Store
+.AppleDouble
+.LSOverride
+
+### Python ###
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ipynb_checkpoints/*

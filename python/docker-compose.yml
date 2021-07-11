@@ -1,0 +1,28 @@
+version: "3.8"
+
+networks:
+  default:
+    driver: bridge
+    name: ${NETWORK_NAME}
+    ipam:
+      driver: default
+      config:
+        - subnet: ${NETWORK_SUBNET}
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: aws-translate-image
+    environment:
+      - AWS_PROFILE=default
+    container_name: agent_python
+    stdin_open: true
+    tty: true
+    restart: always
+    volumes:
+      - ./src/:/usr/app/src/
+      - ./tests/:/usr/app/tests/
+      - ~/.aws/:/root/.aws/:ro
+    working_dir: /usr/app/
