@@ -1,19 +1,16 @@
+# Created By Luis Enrique Fuentes Plata
 
-.PHONY: package
-package: ## Rebuilds the container image and remove orphan containers
-	@ echo "1.- Building image"
-	docker image build --rm -t aws-translate-image .
+SHELL = /bin/bash
 
-.PHONY: start
-start: ## (Local Testing): Stand up services
-	@ echo "Standing up Services"
-	docker-compose up --build --remove-orphans -d
-	docker container exec -it agent_python /bin/bash
+include .env
 
-.PHONY: stop
-stop: ## (Local Testing): Remove services
-	@ echo "Removing Services"
-	docker-compose down -v
+PHONY: run
+run: ## (local): Runs code from container
+	@ docker image build --rm -t dpeimage .
+	@ docker container run --rm -it \
+ 	  -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} \
+ 	  -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY} \
+ 	  --name runner dpeimage
 
 help:
 	@ echo "Please use \`make <target>' where <target> is one of"

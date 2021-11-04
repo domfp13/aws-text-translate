@@ -1,21 +1,28 @@
-###########
-# BUILDER #
-###########
-
 FROM python:3.8-slim-buster
+LABEL maintainer="Luis Enrique Fuentes Plata"
 
+ENV APP_HOME /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update && \
-    apt-get clean && \
+    apt-get install -y locales && \
+    sed -i -e 's/# en_US.UTF-8 UTF-8/en_US.UTF-8 UTF-8/' /etc/locale.gen && \
+    locale-gen && \
+    echo LANG=en_US.utf8 > /etc/default/locale && \
+    apt-get clean  && \
     rm -rf /var/lib/apt/lists/*
 
-WORKDIR /usr/app
+WORKDIR $APP_HOME
 
-COPY ./requirements.txt requirements.txt
+COPY requirements.txt ./
 
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --upgrade pip \
+    && pip install -r requirements.txt -t .
 
 COPY ./src src
 COPY ./tests tests
+
+COPY main.py .
+
+CMD [ "python", "./main.py" ]

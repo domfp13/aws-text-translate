@@ -6,10 +6,11 @@ import boto3
 
 
 class Translate:
-    def __init__(self, text: str, source_language_code: str = "en", target_language_code: str = "de") -> None:
+    def __init__(self, text: str, source_language_code: str = "en", target_language_code: str = "de", region_name="us-east-1") -> None:
         self.text: str = text
         self.source_language_code: str = source_language_code
         self.target_language_code: str = target_language_code
+        self.region_name: str = region_name
         self.client = self.get_text_translate_client()
 
     @property
@@ -42,24 +43,35 @@ class Translate:
             raise ValueError("target_language_code CANNOT be empty or mor than 2 digits")
         self._target_language_code = value
 
+    @property
+    def region_name(self):
+        return self._region_name
+
+    @region_name.setter
+    def region_name(self, value: str):
+        if not value:
+            raise ValueError("region_name CANNOT be empty")
+        self._region_name = value
+
     def get_text_translate_client(self):
         """This function returns a boto3.client for text translate.
         Returns:
             [boto3.client]: boto3.client.Translate object.
         """
-        return boto3.client("translate")
+        return boto3.client("translate", region_name=self.region_name)
 
     def translate(self) -> None:
         """This method prints out the translated text to the target language
         Returns:
             None
         """
-        result = self.client.translate_text(Text="Its a sunny day today",
+        result = self.client.translate_text(Text=self.text,
                                             SourceLanguageCode=self.source_language_code,
                                             TargetLanguageCode=self.target_language_code)
-        print(f'TranslatedText: {result["TranslatedText"]}')
-        print(f'SourceLanguageCode: {result["SourceLanguageCode"]}')
-        print(f'TargetLanguageCode: {result["TargetLanguageCode"]}')
+
+        print(f'Translate from {self.source_language_code} to {self.target_language_code}')
+        print(f'Original Text: {self.text}')
+        print(f'Translated Text: {result["TranslatedText"]}')
 
     def __del__(self):
         pass
