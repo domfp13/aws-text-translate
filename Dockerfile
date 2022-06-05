@@ -26,3 +26,4 @@ COPY ./tests tests
 COPY main.py .
 
 CMD [ "python", "./main.py" ]
+
