@@ -1,6 +1,6 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
-# Luis Enrique Fuentes Plata
+# Enrique Plata
 
 import boto3
 
