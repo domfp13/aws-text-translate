@@ -1,5 +1,5 @@
 FROM python:3.8-slim-buster
-LABEL maintainer="Luis Enrique Fuentes Plata"
+LABEL maintainer="Luis Fuentes"
 
 ENV APP_HOME /usr/src/app
 ENV PYTHONDONTWRITEBYTECODE 1
